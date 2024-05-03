@@ -1,0 +1,14 @@
+{
+  "name": "learntube",
+  "version": "1.0.0",
+  "description": "LearnTUBE is like a YOUTUBE",
+  "author": "ARUNKUMAR M M",
+  "license": "ISC",
+  "devDependencies": {
+    "nodemon": "^3.1.0",
+    "prettier": "^3.2.5"
+  },
+  "dependencies": {
+    "cors": "^2.8.5"
+  }
+}
