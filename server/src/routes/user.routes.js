@@ -1,15 +1,25 @@
 import { Router } from "express";
-import {} from "../controllers/user.controller.js";
+import {
+  registerUser,
+  loginUser,
+  logoutUser,
+  getCurrentUser,
+  getVideo,
+  getVideos,
+  changePassword,
+  refreshAccessToken
+} from "../controllers/user.controller.js";
+import { verifyJWT } from "../middlewares/auth.middleware.js";
 
 const userRouter = Router();
 
-userRouter.route("/register").post();
-userRouter.route("/login").post();
-userRouter.route("/logout").post();
-userRouter.route("/refresh-token").post();
-userRouter.route("/profile").get();
-userRouter.route("/changePassword").post();
-userRouter.route("/videos").get();
-userRouter.route("/videos/:_id").get();
+userRouter.route("/register").post(registerUser);
+userRouter.route("/login").post(loginUser);
+userRouter.route("/logout").post(verifyJWT, logoutUser);
+userRouter.route("/refresh-token").post(refreshAccessToken);
+userRouter.route("/profile").get(verifyJWT, getCurrentUser);
+userRouter.route("/changePassword").post(verifyJWT, changePassword);
+userRouter.route("/videos").get(getVideos);
+userRouter.route("/videos/:_id").get(getVideo);
 
 export { userRouter };

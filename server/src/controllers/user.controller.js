@@ -8,7 +8,7 @@ const generateAccessAndRefreshTokens = async (userId) => {
   try {
     const user = await User.findById(userId);
     const accessToken = user.generateAccessToken();
-    const refreshToken = user.generaterefreshToken();
+    const refreshToken = user.generateRefreshToken();
 
     user.refreshToken = refreshToken;
     await user.save({ validateBeforeSave: false });
@@ -27,13 +27,13 @@ const generateAccessAndRefreshTokens = async (userId) => {
 
 const registerUser = asyncHandler(async (req, res) => {
   //get details
-  const { firstName, lastName, username, email, mobileNumber, password } =
+  const { firstName, lastName, userName, email, mobileNumber, password } =
     req.body;
-
+  // console.log(req.body);
   // validate - empty fields
   if (
-    [firstName, lastName, username, email, mobileNumber, password].some(
-      (field) => field.trim() === ""
+    [firstName, lastName, userName, email, mobileNumber, password].some(
+      (field) => field?.trim() === ""
     )
   ) {
     throw new ApiError(400, "All fields are required");
@@ -41,7 +41,7 @@ const registerUser = asyncHandler(async (req, res) => {
 
   //check if user already exists
   const existedUser = await User.findOne({
-    $or: [{ email }, { username }, { mobileNumber }],
+    $or: [{ email }, { userName }, { mobileNumber }],
   });
 
   if (existedUser) {
@@ -58,7 +58,7 @@ const registerUser = asyncHandler(async (req, res) => {
     email,
     mobileNumber,
     password,
-    username: username?.toLowerCase(),
+    userName: userName?.toLowerCase(),
   });
 
   // remove password and refreshToken field from response
@@ -88,7 +88,7 @@ const loginUser = asyncHandler(async (req, res) => {
 
   if (!user) throw new ApiError(404, "User does not exists");
 
-  const isPasswordValid = await User.isPasswordCorrect(password);
+  const isPasswordValid = await user.isPasswordCorrect(password);
 
   if (!isPasswordValid) throw new ApiError(401, "Invalid user credentials");
 
@@ -210,7 +210,7 @@ const changePassword = asyncHandler(async (req, res) => {
 
   const user = await User.findById(req.user._id);
 
-  const isPasswordCorrect = await User.isPasswordCorrect(oldPassword);
+  const isPasswordCorrect = await user.isPasswordCorrect(oldPassword);
 
   if (!isPasswordCorrect) throw new ApiError(400, "Invalid old password");
 

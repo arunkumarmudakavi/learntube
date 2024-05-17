@@ -4,24 +4,43 @@ import jwt from "jsonwebtoken";
 
 const channelSchema = new Schema(
   {
-    userId: {
-      type: Schema.Types.ObjectId,
-      ref: "User",
+    firstName: {
+      type: String,
+      required: true,
+      trim: true,
+    },
+    lastName: {
+      type: String,
+      required: true,
+      trim: true,
     },
     channelName: {
       type: String,
-      required: true,
-      lowercase: true,
-      trim: true,
       unique: true,
+      required: true,
+      trim: true,
+    },
+    email: {
+      type: String,
+      unique: true,
+      required: true,
+      trim: true,
+    },
+    mobileNumber: {
+      type: Number,
+      unique: true,
+      required: true,
+      trim: true,
     },
     password: {
       type: String,
-      required: [true, "Password is required"],
+      required: true,
+      trim: true,
     },
-    refreshToken: {
-      type: String,
-    },
+    // avatar: {
+    //   type: String,
+    //   required: true,
+    // },
   },
   {
     timestamps: true,
