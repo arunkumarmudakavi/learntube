@@ -14,7 +14,7 @@ import { upload } from "../middlewares/multer.middleware.js";
 
 const channelRouter = Router();
 
-channelRouter.route("/register-channel").post( registerChannel);
+channelRouter.route("/register-channel").post(registerChannel);
 channelRouter.route("/login-channel").post(loginChannel);
 channelRouter.route("/logout-channel").post(verifyChannelJWT, logoutChannel);
 channelRouter.route("/refresh-token").post(refreshAccessToken);
@@ -37,6 +37,8 @@ channelRouter.route("/uploadVideo").post(
   uploadVideo
 );
 // channelRouter.route("/videos/:_id").get(verifyChannelJWT);
-channelRouter.route("/avatar").patch(verifyChannelJWT, changeAvatar);
+channelRouter
+  .route("/avatar")
+  .patch(verifyChannelJWT, upload.single("avatar"), changeAvatar);
 
 export { channelRouter };

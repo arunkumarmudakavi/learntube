@@ -281,8 +281,9 @@ const changePassword = asyncHandler(async (req, res) => {
 
 const changeAvatar = asyncHandler(async (req, res) => {
 
-  // Single file that's file. If multiple then it's files.
-  const newAvatarLocalPath = req.file?.path
+  // console.log(req?.file?.path);
+  // Single file that's why file. If multiple then it's files.
+  const newAvatarLocalPath = req?.file?.path
   if(!newAvatarLocalPath) throw new ApiError(400, "Avatar not found")
 
   const avatar = await uploadImageCloudinary(newAvatarLocalPath)

@@ -37,10 +37,10 @@ const channelSchema = new Schema(
       required: true,
       trim: true,
     },
-    // avatar: {
-    //   type: String,
-    //   required: true,
-    // },
+    avatar: {
+      type: String,
+      // required: true,
+    },
   },
   {
     timestamps: true,

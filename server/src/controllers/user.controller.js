@@ -3,6 +3,8 @@ import { ApiResponse } from "../utils/ApiResponse.js";
 import { ApiError } from "../utils/ApiError.js";
 import { User } from "../models/user.model.js";
 import { Video } from "../models/video.model.js";
+import { Likes } from "../models/likes.model.js";
+import { Comment } from "../models/comment.model.js";
 
 const generateAccessAndRefreshTokens = async (userId) => {
   try {
@@ -239,6 +241,48 @@ const getVideo = asyncHandler(async (req, res) => {
     .json(new ApiResponse(200, video, "Video fetched successfully"));
 });
 
+const likesOnVideo = asyncHandler(async (req, res) => {
+  // get videoId from params
+  const videoId = req.params;
+  console.log(videoId);
+
+  try {
+    // db check using videoId
+    const video = await Video.findById(videoId);
+    if (!video) throw new ApiError(404, "Video doesn't exists");
+
+    // get userId
+    const loggedInUser = req.user?._id;
+
+    const existingLikeByUser = await Likes.findOne({
+      likedBy: loggedInUser,
+      videoId: video?._id,
+    });
+
+    // check whether the user already liked to the video
+    if (existingLikeByUser) {
+      await Likes.findByIdAndDelete(existingLikeByUser?._id);
+      return res.status(200).json(new ApiResponse(200, "removed like"));
+    }
+    // if already liked delete the existing like or else create new like
+    //return liked video
+    else {
+      const LikedVideo = await Likes.create({
+        likedBy: loggedInUser,
+        videoId: videoId,
+      });
+
+      return res
+        .status(200)
+        .json(new ApiResponse(200, LikedVideo, "video liked"));
+    }
+  } catch (error) {
+    throw new ApiError(500, error, "something went wrong");
+  }
+});
+
+const commentsOnVideo = asyncHandler(async (req, res) => {});
+
 export {
   generateAccessAndRefreshTokens,
   registerUser,
@@ -249,4 +293,6 @@ export {
   changePassword,
   getVideos,
   getVideo,
+  likesOnVideo,
+  commentsOnVideo,
 };
