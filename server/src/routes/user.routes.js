@@ -10,6 +10,7 @@ import {
   refreshAccessToken
 } from "../controllers/user.controller.js";
 import { verifyJWT } from "../middlewares/auth.middleware.js";
+// import { Likes } from "../models/likes.model.js";
 
 const userRouter = Router();
 
