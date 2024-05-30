@@ -31,13 +31,13 @@ const httpUserLogout = async (data) => {
 };
 
 const httpGetProfile = async () => {
-  try {
-    return await axios.get(`${import.meta.env.VITE_API_URL}/profile`);
-  } catch (error) {
-    return {
-      ok: false,
-    };
-  }
+  return await axios.get(`${import.meta.env.VITE_API_URL}/profile`);
+  // try {
+  // } catch (error) {
+  //   return {
+  //     ok: false,
+  //   };
+  // }
 };
 
 const httpChangeUserPassword = async (data) => {

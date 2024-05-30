@@ -15,7 +15,7 @@ const channelAuthSlice = createSlice({
         },
         channelLogout: (state) => {
             (state.status = false),
-            (state.channelData = action.channelData)
+            (state.channelData = null)
         }
     }
 })
