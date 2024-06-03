@@ -1,14 +1,17 @@
-import React from 'react'
-import {useSelector} from "react-redux"
+import React from "react";
+import { useSelector } from "react-redux";
 
 const Profile = () => {
-    const currentUser = useSelector((state) => state.userAuth?.userData?.data);
-    console.log(currentUser?.data?.firstName);
+  const {firstName, lastName, email, mobileNumber} = useSelector((state) => state.userAuth?.userData?.data?.data);
+  console.log(firstName);
   return (
     <>
-    <p>{currentUser?.data?.firstName}</p>
+      <p>{firstName}</p>
+      <p>{lastName}</p>
+      <p>{email}</p>
+      <p>{mobileNumber}</p>
     </>
-  )
-}
+  );
+};
 
-export default Profile
+export default Profile;

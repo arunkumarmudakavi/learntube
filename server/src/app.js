@@ -1,8 +1,11 @@
 import express from "express";
 import cors from "cors";
 import cookieParser from "cookie-parser";
+import status from 'express-status-monitor'
 
 const app = express();
+
+app.use(status())
 
 app.use(
   cors({

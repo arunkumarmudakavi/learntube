@@ -29,7 +29,7 @@ const httpChannelLogin = async (data) => {
 const httpGetChannelDetails = async () => {
   try {
     return await axios.get(
-      `${import.meta.env.VITE_CHANNEL_API_URL}/channelProfile`
+      `${import.meta.env.VITE_CHANNEL_API_URL}/channel-profile`
     );
   } catch (error) {
     return {
@@ -53,11 +53,14 @@ const httpUploadVideo = async (data) => {
 
 const httpChannelLogout = async (data) => {
   try {
+    console.log("logout api called");
     return await axios.post(
-      `${import.meta.env.VITE_CHANNEL_API_URL}/channel-logout`,
+      `${import.meta.env.VITE_CHANNEL_API_URL}/logout-channel`,
       data
     );
+    
   } catch (error) {
+    console.log("logout api error");
     return {
       ok: false,
     };

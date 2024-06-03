@@ -7,6 +7,9 @@ import {
   uploadVideoCloudinary,
 } from "../utils/cloudinary.js";
 import { Video } from "../models/video.model.js";
+import fs from 'fs'
+import zlib from 'zlib'
+
 
 const generateAccessAndRefreshTokens = async (channelId) => {
   try {
@@ -220,12 +223,15 @@ const uploadVideo = asyncHandler(async (req, res) => {
   // const videoPath = req.body.videoName;
   // const thumb = req.body.imageName;
 
-  console.log(videoPath);
-  console.log(thumb);
+  // console.log(fs.createReadStream(videoPath).pipe(zlib.createGzip().pipe(fs.createWriteStream())));
+
+  // console.log(videoPath);
+  // console.log(thumb);
 
   if (!videoPath) throw new ApiError(400, "Video is required");
   if (!thumb) throw new ApiError(400, "Thumbnail is required");
 
+  // const vid = await uploadVideoCloudinary(fs.createReadStream(videoPath).pipe(zlib.createGzip().pipe(fs.createWriteStream())));
   const vid = await uploadVideoCloudinary(videoPath);
   const thumbnailImg = await uploadImageCloudinary(thumb);
 

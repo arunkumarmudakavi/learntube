@@ -14,6 +14,7 @@ const LogoutButton = () => {
             dispatch(userLogout())
             navigate('/login')
         })
+        .catch((err) => console.log(err))
     }
 
   return (

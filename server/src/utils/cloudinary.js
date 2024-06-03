@@ -14,7 +14,7 @@ const uploadImageCloudinary = async (localFilePath) => {
     const response = await cloudinary.uploader.upload(localFilePath, {
       resource_type: "image",
     });
-    console.log(response.url);
+    // console.log(response.url);
     fs.unlinkSync(localFilePath);
     return response;
   } catch (error) {
@@ -26,10 +26,13 @@ const uploadImageCloudinary = async (localFilePath) => {
 const uploadVideoCloudinary = async (localVideoPath) => {
   try {
     if (!localVideoPath) return null;
+    console.log("29: ",localVideoPath);
+
     const response = await cloudinary.uploader.upload(localVideoPath, {
       resource_type: "video",
-    });
-    console.log(response.url);
+      chunk_size: 6000000,
+    })
+    // console.log(response?.url);
     fs.unlinkSync(localVideoPath);
     return response;
   } catch (error) {
