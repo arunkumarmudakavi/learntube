@@ -18,24 +18,24 @@ const Home = () => {
   }, []);
 
   if(userAuth != true) {
-    return <div>
-    <Container>Login to get videos</Container>
+    return <div className="flex min-h-96 justify-center items-center">
+    <section className='font-bold italic text-5xl'>Login to get videos</section>
   </div>
   }
   
 
   return <div>
-    <Container>
+    <div className='grid grid-cols-4 mx-8'>
         {
           // console.log(posts)
           // <p>{posts}</p>
             posts?.data?.data?.map((post) => (
-                <div key={post?._id}>
+                <div className='mx-6 my-4 ' key={post?._id}>
                     <PostCard {...post}/>
                 </div>
             ))
         }
-    </Container>
+    </div>
   </div>
 }
 

@@ -25,17 +25,17 @@ const Home = () => {
   
 
   return <div>
-    <Container>
+    <div className='grid grid-cols-4 mx-8'>
         {
           // console.log(posts)
           // <p>{posts}</p>
             posts?.data?.data?.map((post) => (
-                <div key={post?._id}>
+                <div className='mx-6 my-4 ' key={post?._id}>
                     <PostCard {...post}/>
                 </div>
             ))
         }
-    </Container>
+    </div>
   </div>
 }
 

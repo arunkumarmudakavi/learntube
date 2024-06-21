@@ -15,7 +15,7 @@ const LogoutChannel = () => {
         })
     }
   return (
-    <button className='text-lg' onClick={() => logoutHandler()}>Logout</button>
+    <button className='bg-white text-indigo-500 px-3 py-1 rounded-md font-semibold' onClick={() => logoutHandler()}>Logout</button>
   )
 }
 

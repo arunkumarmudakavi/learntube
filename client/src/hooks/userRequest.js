@@ -73,6 +73,46 @@ const httpGetSingleVideo = async ({ _id }) => {
   }
 };
 
+const httpLikeVideo = async ({ _id }) => {
+  try {
+    return await axios.put(`${import.meta.env.VITE_API_URL}/likes/${_id}`);
+  } catch (error) {
+    return {
+      ok: false,
+    };
+  }
+};
+
+const httpGetAllLikes = async ({ _id }) => {
+  try {
+    return await axios.get(`${import.meta.env.VITE_API_URL}/likes/${_id}`);
+  } catch (error) {
+    return {
+      ok: false,
+    };
+  }
+};
+
+const httpCommentVideo = async ({  videoId,commentedBy,userName,content}) => {
+  try {
+    return await axios.put(`${import.meta.env.VITE_API_URL}/videos/comments/${videoId}`, {videoId,commentedBy,userName,content});
+  } catch (error) {
+    return {
+      ok: false,
+    };
+  }
+};
+
+const httpGetHistory = async () => {
+  try {
+    return await axios.get(`${import.meta.env.VITE_API_URL}/history`);
+  } catch (error) {
+    return {
+      ok: false,
+    };
+  }
+}  
+
 export {
   httpUserRegister,
   httpUserLogin,
@@ -81,4 +121,8 @@ export {
   httpChangeUserPassword,
   httpGetVideos,
   httpGetSingleVideo,
+  httpLikeVideo,
+  httpGetAllLikes,
+  httpCommentVideo,
+  httpGetHistory,
 };

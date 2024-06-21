@@ -24,47 +24,52 @@ const Signup = () => {
   };
 
   return (
-    <div>
-      <form onSubmit={handleSubmit(userRegister)}>
+    <div className="flex flex-col min-h-96 m-16 rounded justify-center items-center bg-indigo-500">
+      <span className="text-6xl m-6 font-semibold">Sign Up</span>
+      <form className="flex flex-col mb-4" onSubmit={handleSubmit(userRegister)}>
         <Input
+          className="p-4 rounded-md font-bold mb-3 w-96"
           type="text"
           placeholder="First Name"
           {...register("firstName", { required: true })}
         />
         <Input
+          className="p-4 rounded-md font-bold mb-3 w-96"
           type="text"
           placeholder="Last Name"
           {...register("lastName", { required: true })}
         />
         <Input
+          className="p-4 rounded-md font-bold mb-3 w-96"
           type="text"
           placeholder="user Name"
           {...register("userName", { required: true })}
         />
         <Input
+          className="p-4 rounded-md font-bold mb-3 w-96"
           type="text"
           placeholder="Email"
           {...register("email", { required: true })}
         />
         <Input
+          className="p-4 rounded-md font-bold mb-3 w-96"
           type="text"
           placeholder="Mobile Number"
           {...register("mobileNumber", { required: true })}
         />
         <Input
+          className="p-4 rounded-md font-bold mb-3 w-96"
           type="text"
           placeholder="Password"
           {...register("password", { required: true })}
         />
-        <Button type="submit" children="Sign Up" />
+        <Button className="border-white w-96 border-2 rounded p-2 text-xl font-bold text-white" type="submit" children="Sign Up" />
       </form>
-      <div>
-        <p>
+      <section className="font-bold text-xl mb-6">
           Already have an account?
-          <Link to="/login">Sign In</Link>
-        </p>
-        {error && <p>{error}</p>}
-      </div>
+          <Link to="/login" className="underline"> Sign In</Link>
+        {error && <p className="font-thin italic">{error}</p>}
+      </section>
     </div>
   );
 };

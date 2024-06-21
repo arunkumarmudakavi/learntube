@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React from 'react'
 import {useNavigate, Link} from 'react-router-dom'
 import {Container, LogoutButton, LogoutChannel} from '../../index.js'
 import { useSelector } from 'react-redux';
@@ -56,15 +56,15 @@ const Header = () => {
   return (
     <header>
         <Container>
-            <nav>
-                <div>
+            <nav className="bg-indigo-500 flex justify-around pt-6 pb-6 text-white">
+                <div className="caret-violet-50 text-4xl italic font-extrabold">
                     <Link to='/'>LearnTUBE</Link>
                 </div>
-                <ul>
+                <ul className='flex items-center'>
                     {
                         navItems.map((item) => 
                         item.active ? (
-                            <li key={item.name}>
+                            <li key={item.name} className="mr-6 text-2xl font-bold">
                                 <button onClick={() => navigate(item.slug)}>
                                     {item.name}
                                 </button>
