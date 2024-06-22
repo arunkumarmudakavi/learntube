@@ -103,6 +103,16 @@ const httpCommentVideo = async ({  videoId,commentedBy,userName,content}) => {
   }
 };
 
+const httpStoreHistory = async () => {
+  try {
+    return await axios.post(`${import.meta.env.VITE_API_URL}/history`);
+  } catch (error) {
+    return {
+      ok: false,
+    };
+  }
+}  
+
 const httpGetHistory = async () => {
   try {
     return await axios.get(`${import.meta.env.VITE_API_URL}/history`);
@@ -125,4 +135,5 @@ export {
   httpGetAllLikes,
   httpCommentVideo,
   httpGetHistory,
+  httpStoreHistory,
 };

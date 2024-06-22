@@ -16,4 +16,19 @@ const PostCard = ({ _id, title, thumbnail, description }) => {
   );
 };
 
-export default PostCard;
+const HistoryPostCard = ({ ...post }) => {
+  // console.log(post?.result[0]?.title);
+  return (
+    <Link to={`/videos/${post?.result[0]?.videoFile}`}>
+      <section className="flex">
+        <img className='pl-4 rounded w-44 mr-5' src={post?.result[0]?.thumbnail} alt={post?.result[0]?.title} />
+        <section className="font-semibold text-2xl">
+          <span className="text-ellipsis">{post?.result[0]?.title}</span>
+          {/* <span>{owner}</span> */}
+        </section>
+       </section>
+    </Link>
+  );
+};
+
+export  {PostCard, HistoryPostCard};

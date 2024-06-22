@@ -228,6 +228,7 @@ const changePassword = asyncHandler(async (req, res) => {
 const getVideos = asyncHandler(async (_, res) => {
   const videos = await Video.find();
 
+  // console.log(videos);
   return res
     .status(200)
     .json(new ApiResponse(200, videos, "Videos fetched successfully"));
@@ -367,20 +368,34 @@ const storeHistory = asyncHandler(async (req, res) => {
   const { _id } = req.params;
   const userId = req.user?._id;
 
-  console.log(_id, " ", userId);
+  // console.log(_id, " ", userId);
 
   if (!(_id || userId)) throw new ApiError(404, "video or user id not found!");
 
-  const history = await History.create({
-    videoId: _id,
-    userId,
-  });
+  const existingHistory = await History.aggregate([
+    {
+      $match: {
+        $expr: {
+          $and: [{$eq: ['$videoId' , { $toObjectId: _id } ]}, {$eq: ['$userId' , { $toObjectId: userId } ]}]
+        }
+      }
+    }
+  ])
+// console.log(existingHistory.length);
+  if(existingHistory.length !== 0){
+    return res
+    .status(200)
+    .json(new ApiResponse(200, "Video already stored in history..."));
+  }else {
+    const history = await History.create({
+      videoId: _id,
+      userId,
+    });
 
-  // console.log(history);
-
-  return res
+    return res
     .status(200)
     .json(new ApiResponse(200, history, "History stored successfully..."));
+  }
 });
 
 const getHistory = asyncHandler(async (req, res) => {

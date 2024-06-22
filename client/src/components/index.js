@@ -7,7 +7,7 @@ import Signup from "./user/Signup/Signup";
 import Container from "./container/Container";
 import LogoutButton from "./user/Header/LogoutButton";
 import AuthLayout from "./AuthLayout";
-import PostCard from "./PostCard";
+import {PostCard, HistoryPostCard} from "./PostCard";
 import Button from "./Button";
 import Input from "./Input";
 import SingleVideo from "./SingleVideo";
@@ -40,4 +40,5 @@ export {
   ChannelSignup,
   VideoUpload,
   LogoutChannel,
+  HistoryPostCard,
 };

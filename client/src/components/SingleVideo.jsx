@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { httpGetSingleVideo, httpLikeVideo, httpCommentVideo, httpGetAllLikes } from "../hooks/userRequest.js";
+import { httpGetSingleVideo, httpLikeVideo, httpCommentVideo, httpGetAllLikes, httpStoreHistory } from "../hooks/userRequest.js";
 import ReactPlayer from "react-player";
 import { AiFillLike, AiFillDislike } from "react-icons/ai";
 import LikeButton from "./LikeButton.jsx";
@@ -30,9 +30,14 @@ const SingleVideo = () => {
     httpGetSingleVideo({ _id }).then((data) => {
       if (data) setPost(data);
     });
-
     
   }, [_id, navigate]);
+
+  useEffect(() => {
+    httpStoreHistory()
+    .then((data) => {console.log(data);})
+    .catch((err) => console.error(err))
+  }, [])
 
   // console.log(likes);
 
