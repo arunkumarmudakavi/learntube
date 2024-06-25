@@ -75,8 +75,9 @@ const Profile = () => {
       ) : (
         <section className="w-full p-6 ">
           <center className="text-4xl font-semibold">History</center>
+
           {history?.data?.map((post) => (
-            <div className="py-4 border-2 border-gray-300 rounded m-2" key={post?._id}>
+            <div className="py-2 border-2 border-gray-300 rounded m-2" key={post?._id}>
               <HistoryPostCard {...post} />
             </div>
           ))}

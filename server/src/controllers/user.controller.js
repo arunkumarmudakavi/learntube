@@ -318,10 +318,10 @@ const getAllLikes = asyncHandler(async (req, res) => {
 const commentsOnVideo = asyncHandler(async (req, res) => {
   const videoId = req.params?._id;
   const { content } = req.body;
-  // console.log(videoId);
+  // console.log(content);
   const userName = req.user?.userName;
   const commentedBy = req.user?._id;
-  // console.log(id);
+  // console.log(videoId);
   // console.log(commentedBy);
 
   if (!commentedBy) throw new ApiError(404, "User Id Not Found");

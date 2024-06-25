@@ -1,6 +1,6 @@
 import React, { forwardRef, useId } from "react";
 
-const Input = ({ label, type = "text", className = "", ...props }, ref) => {
+const Input = forwardRef(({ label, type = "text", className = "", ...props }, ref) => {
   const id = useId();
   return (
     <>
@@ -14,6 +14,27 @@ const Input = ({ label, type = "text", className = "", ...props }, ref) => {
       />
     </>
   );
-};
+})
 
-export default forwardRef(Input);
+const TextArea = forwardRef(
+  ({ label, type = "text", className = "", ...props }, ref) => {
+    const id = useId();
+    return (
+      <>
+        {label && <label htmlFor={id}>{label}</label>}
+        <textarea
+          type={type}
+          className={`${className}`}
+          ref={ref}
+          {...props}
+          id={id}
+        />
+      </>
+    );
+  }
+);
+
+export {
+  Input,
+  TextArea,
+}

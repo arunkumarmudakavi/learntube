@@ -30,8 +30,8 @@ userRouter.route("/videos").get(verifyJWT,getVideos);
 userRouter.route("/videos/:_id").get(verifyJWT,getVideo);
 userRouter.route("/videos/likes/:_id").put(verifyJWT,likesOnVideo)
 userRouter.route("/likes/:_id").get(verifyJWT,getAllLikes)
-userRouter.route("/videos/comments/:_id").put(verifyJWT, commentsOnVideo)
-userRouter.route("/videos/comments/:_id").get(verifyJWT, getAllComments)
+userRouter.route("/comments/:_id").put(verifyJWT, commentsOnVideo)
+userRouter.route("/comments/:_id").get(verifyJWT, getAllComments)
 userRouter.route("/history/:_id").post(verifyJWT, storeHistory)
 userRouter.route("/history").get(verifyJWT, getHistory)
 

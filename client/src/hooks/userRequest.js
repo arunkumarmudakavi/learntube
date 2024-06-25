@@ -93,9 +93,9 @@ const httpGetAllLikes = async ({ _id }) => {
   }
 };
 
-const httpCommentVideo = async ({  videoId,commentedBy,userName,content}) => {
+const httpCommentVideo = async ({videoId, content}) => {
   try {
-    return await axios.put(`${import.meta.env.VITE_API_URL}/videos/comments/${videoId}`, {videoId,commentedBy,userName,content});
+    return await axios.put(`${import.meta.env.VITE_API_URL}/comments/${videoId}`, {content});
   } catch (error) {
     return {
       ok: false,
@@ -103,9 +103,19 @@ const httpCommentVideo = async ({  videoId,commentedBy,userName,content}) => {
   }
 };
 
-const httpStoreHistory = async () => {
+const httpGetAllCommentsOnVideo = async ({ _id }) => {
   try {
-    return await axios.post(`${import.meta.env.VITE_API_URL}/history`);
+    return await axios.get(`${import.meta.env.VITE_API_URL}/comments/${_id}`);
+  } catch (error) {
+    return {
+      ok: false,
+    };
+  }
+};
+
+const httpStoreHistory = async ({_id}) => {
+  try {
+    return await axios.post(`${import.meta.env.VITE_API_URL}/history/${_id}`);
   } catch (error) {
     return {
       ok: false,
@@ -136,4 +146,5 @@ export {
   httpCommentVideo,
   httpGetHistory,
   httpStoreHistory,
+  httpGetAllCommentsOnVideo,
 };

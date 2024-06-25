@@ -7,9 +7,9 @@ import Signup from "./user/Signup/Signup";
 import Container from "./container/Container";
 import LogoutButton from "./user/Header/LogoutButton";
 import AuthLayout from "./AuthLayout";
-import {PostCard, HistoryPostCard} from "./PostCard";
+import {PostCard, HistoryPostCard, CommentPostCard} from "./PostCard";
 import Button from "./Button";
-import Input from "./Input";
+import {Input, TextArea} from "./Input";
 import SingleVideo from "./SingleVideo";
 import ChannelAuthLayout from "./ChannelAuthLayout";
 import ChannelHome from "./channel/Home/Home";
@@ -32,6 +32,7 @@ export {
   PostCard,
   Button,
   Input,
+  TextArea,
   SingleVideo,
   ChannelAuthLayout,
   ChannelHome,
@@ -41,4 +42,5 @@ export {
   VideoUpload,
   LogoutChannel,
   HistoryPostCard,
+  CommentPostCard,
 };
