@@ -285,13 +285,11 @@ const likesOnVideo = asyncHandler(async (req, res) => {
 
 const getAllLikes = asyncHandler(async (req, res) => {
   const videoId = req.params?._id;
-// console.log(videoId);
-
-
+  // console.log(videoId);
 
   const likes = await Likes.aggregate([
     {
-      $match: { $expr : { $eq: [ '$videoId' , { $toObjectId: videoId } ] } } 
+      $match: { $expr: { $eq: ["$videoId", { $toObjectId: videoId }] } },
       //  {
       //   videoId: videoId
       // }
@@ -300,19 +298,19 @@ const getAllLikes = asyncHandler(async (req, res) => {
       $group: {
         _id: "$videoId",
         quantity: {
-          $sum: 1
-        }
-      }
-    }
-  ])
+          $sum: 1,
+        },
+      },
+    },
+  ]);
 
   console.log(likes[0].quantity);
 
   return res
-  .status(200)
-  .json(
-    new ApiResponse(200, likes[0].quantity,"Likes fetched successfully")
-  )
+    .status(200)
+    .json(
+      new ApiResponse(200, likes[0].quantity, "Likes fetched successfully")
+    );
 });
 
 const commentsOnVideo = asyncHandler(async (req, res) => {
@@ -376,25 +374,28 @@ const storeHistory = asyncHandler(async (req, res) => {
     {
       $match: {
         $expr: {
-          $and: [{$eq: ['$videoId' , { $toObjectId: _id } ]}, {$eq: ['$userId' , { $toObjectId: userId } ]}]
-        }
-      }
-    }
-  ])
-// console.log(existingHistory.length);
-  if(existingHistory.length !== 0){
+          $and: [
+            { $eq: ["$videoId", { $toObjectId: _id }] },
+            { $eq: ["$userId", { $toObjectId: userId }] },
+          ],
+        },
+      },
+    },
+  ]);
+  // console.log(existingHistory.length);
+  if (existingHistory.length !== 0) {
     return res
-    .status(200)
-    .json(new ApiResponse(200, "Video already stored in history..."));
-  }else {
+      .status(200)
+      .json(new ApiResponse(200, "Video already stored in history..."));
+  } else {
     const history = await History.create({
       videoId: _id,
       userId,
     });
 
     return res
-    .status(200)
-    .json(new ApiResponse(200, history, "History stored successfully..."));
+      .status(200)
+      .json(new ApiResponse(200, history, "History stored successfully..."));
   }
 });
 
@@ -432,6 +433,21 @@ const getHistory = asyncHandler(async (req, res) => {
     .json(new ApiResponse(200, history, "History fetched successfully"));
 });
 
+const removeFromHistory = asyncHandler(async (req, res) => {
+  // const {videoId} = req.body
+
+  // console.log(videoId);
+
+  // if(!videoId) throw new ApiError(404, "Video Id Not Found!")
+
+  const removed = await History.deleteMany();
+  console.log(removed);
+
+  if (!removed) throw new ApiError(400, "Not Removed");
+
+  return res.status(201).json(new ApiResponse(201, "Removed Successfully"));
+});
+
 export {
   generateAccessAndRefreshTokens,
   registerUser,
@@ -448,4 +464,5 @@ export {
   getAllLikes,
   storeHistory,
   getHistory,
+  removeFromHistory,
 };

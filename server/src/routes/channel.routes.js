@@ -8,6 +8,10 @@ import {
   refreshAccessToken,
   uploadVideo,
   changeAvatar,
+  getOwnVideos,
+  getVideo,
+  getAllComments,
+  commentsOnVideoByChannel,
 } from "../controllers/channel.controller.js";
 import { verifyChannelJWT } from "../middlewares/auth.middleware.js";
 import { upload } from "../middlewares/multer.middleware.js";
@@ -40,5 +44,12 @@ channelRouter.route("/uploadVideo").post(
 channelRouter
   .route("/avatar")
   .patch(verifyChannelJWT, upload.single("avatar"), changeAvatar);
+
+channelRouter.route("/home").get(verifyChannelJWT, getOwnVideos);
+channelRouter.route("/videos/:_id").get(verifyChannelJWT, getVideo);
+channelRouter.route("/comments/:_id").get(verifyChannelJWT, getAllComments);
+channelRouter
+  .route("/comments/:_id")
+  .post(verifyChannelJWT, commentsOnVideoByChannel);
 
 export { channelRouter };

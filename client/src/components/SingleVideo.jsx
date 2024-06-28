@@ -9,11 +9,16 @@ import {
   httpGetAllCommentsOnVideo,
 } from "../hooks/userRequest.js";
 import ReactPlayer from "react-player";
-import { AiFillLike, AiFillDislike } from "react-icons/ai";
 import LikeButton from "./LikeButton.jsx";
 import { useForm } from "react-hook-form";
-import { Input, Button, CommentPostCard, TextArea } from "../components/index.js";
+import {
+  Input,
+  Button,
+  CommentPostCard,
+  TextArea,
+} from "../components/index.js";
 import { useSelector } from "react-redux";
+import { httpGetChannelSingleVideo, httpGetAllCommentsFromChannel, httpCommentVideoFromChannel } from "../hooks/channelRequest.js";
 
 const SingleVideo = () => {
   const [post, setPost] = useState();
@@ -21,45 +26,75 @@ const SingleVideo = () => {
   const { _id } = useParams();
   const navigate = useNavigate();
   const { register, handleSubmit } = useForm();
-  const userName = useSelector(
-    (state) => state.userAuth?.userData?.data?.data?.userName
-  );
-  const userId = useSelector(
-    (state) => state.userAuth?.userData?.data?.data?._id
-  );
+
+  const channelStatus = useSelector((state) => state.channelAuth?.status);
+
+  // console.log(channelState);
+  const userStatus = useSelector((state) => state.userAuth?.status);
   // console.log(userName);
 
-  const [click, setClick] = useState(false);
+  // const [click, setClick] = useState(false);
 
-  function likeButtonClick({ _id }) {
-    httpLikeVideo({ _id })
-      // .then(() => setClick(true))
-      .then((data) => console.log(data));
-  }
+  // function likeButtonClick({ _id }) {
+  //   httpLikeVideo({ _id })
+  //     // .then(() => setClick(true))
+  //     .then((data) => console.log(data));
+  // }
 
   useEffect(() => {
-    httpGetSingleVideo({ _id }).then((data) => {
-      if (data) setPost(data);
-    });
+    // console.log({_id});
+    if (userStatus) {
+      httpGetSingleVideo({ _id })
+        .then((data) => {
+          // console.log(data)
+          if (data) setPost(data);
+        })
+        .catch((error) => console.error(error));
+    }
+
+    if (channelStatus) {
+      // console.log({_id});
+      httpGetChannelSingleVideo({ _id })
+        .then((data) => {
+          // console.log(data)
+          if (data) setPost(data);
+        })
+        .catch((error) => console.error(error));
+    }
   }, [_id, navigate]);
 
   useEffect(() => {
-    httpStoreHistory({ _id }).catch((err) => console.error(err));
-    httpGetAllCommentsOnVideo({ _id })
-    .then((data) => setComments(data?.data))
-    .catch((err) => console.error(err));
+    if (userStatus) {
+      httpStoreHistory({ _id }).catch((err) => console.error(err));
+
+      httpGetAllCommentsOnVideo({ _id })
+        .then((data) => setComments(data?.data))
+        .catch((err) => console.error(err));
+    }
+
+    if (channelStatus) {
+      console.log({_id})
+      httpGetAllCommentsFromChannel({ _id })
+        .then((data) => {
+          console.log(data)
+          setComments(data?.data)})
+        .catch((err) => console.error(err));
+    }
   }, []);
 
-  // console.log(comments);
 
   const submitComment = async (data) => {
     try {
-      // console.log({...data});
-      const response = await httpCommentVideo(data);
-      // console.log(response);
-      // if (response?.data?.success) {
-      //   navigate("/login");
-      // }
+      
+      if (userStatus) {
+        httpCommentVideo(data)
+        .catch((err) => console.error(err))
+      }
+      
+      if (channelStatus) {
+        httpCommentVideoFromChannel(data)
+        .catch((err) => console.error(err))
+      }
     } catch (error) {
       // setError(error.message);
       console.log(error);
@@ -92,7 +127,7 @@ const SingleVideo = () => {
       <form
         className="flex flex-col my-4"
         onSubmit={handleSubmit((data) => {
-          data.videoId = _id
+          data.videoId = _id;
           submitComment(data);
         })}
       >
@@ -105,12 +140,11 @@ const SingleVideo = () => {
         <Button className="" type="submit" children="Add" />
       </form>
       <section>
-      {comments?.data?.map((comment) => (
-            <div className="mb-2" key={comment?._id}>
-              <CommentPostCard {...comment}/>
-            </div>
-          ))}
-        
+        {comments?.data?.map((comment) => (
+          <div className="mb-2" key={comment?._id}>
+            <CommentPostCard {...comment} />
+          </div>
+        ))}
       </section>
     </div>
   ) : null;

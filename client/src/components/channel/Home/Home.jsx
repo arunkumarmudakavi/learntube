@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux';
-import { httpGetVideos } from '../../../hooks/userRequest.js';
+import { httpGetOwnVideos } from '../../../hooks/channelRequest.js';
 import Container from '../../container/Container.jsx';
 import {PostCard} from '../../index.js'
 
@@ -11,7 +11,7 @@ const Home = () => {
 
     
   useEffect(() => {
-    httpGetVideos()
+    httpGetOwnVideos()
     .then((posts) => {
         if(posts) setPosts(posts);
     })
@@ -27,8 +27,6 @@ const Home = () => {
   return <div>
     <div className='grid grid-cols-4 mx-8'>
         {
-          // console.log(posts)
-          // <p>{posts}</p>
             posts?.data?.data?.map((post) => (
                 <div className='mx-6 my-4 ' key={post?._id}>
                     <PostCard {...post}/>

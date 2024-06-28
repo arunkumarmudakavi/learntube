@@ -93,9 +93,12 @@ const httpGetAllLikes = async ({ _id }) => {
   }
 };
 
-const httpCommentVideo = async ({videoId, content}) => {
+const httpCommentVideo = async ({ videoId, content }) => {
   try {
-    return await axios.put(`${import.meta.env.VITE_API_URL}/comments/${videoId}`, {content});
+    return await axios.put(
+      `${import.meta.env.VITE_API_URL}/comments/${videoId}`,
+      { content }
+    );
   } catch (error) {
     return {
       ok: false,
@@ -113,7 +116,7 @@ const httpGetAllCommentsOnVideo = async ({ _id }) => {
   }
 };
 
-const httpStoreHistory = async ({_id}) => {
+const httpStoreHistory = async ({ _id }) => {
   try {
     return await axios.post(`${import.meta.env.VITE_API_URL}/history/${_id}`);
   } catch (error) {
@@ -121,7 +124,7 @@ const httpStoreHistory = async ({_id}) => {
       ok: false,
     };
   }
-}  
+};
 
 const httpGetHistory = async () => {
   try {
@@ -131,7 +134,17 @@ const httpGetHistory = async () => {
       ok: false,
     };
   }
-}  
+};
+
+const httpRemoveFromHistory = async () => {
+  try {
+    return await axios.delete(`${import.meta.env.VITE_API_URL}/history`);
+  } catch (error) {
+    return {
+      ok: false,
+    };
+  }
+};
 
 export {
   httpUserRegister,
@@ -147,4 +160,5 @@ export {
   httpGetHistory,
   httpStoreHistory,
   httpGetAllCommentsOnVideo,
+  httpRemoveFromHistory,
 };

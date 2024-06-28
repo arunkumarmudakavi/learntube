@@ -51,13 +51,33 @@ const httpUploadVideo = async (data) => {
   }
 };
 
-const httpChannelLogout = async (data) => {
+const httpGetOwnVideos = async () => {
+  try {
+    return await axios.get(`${import.meta.env.VITE_CHANNEL_API_URL}/home`);
+  } catch (error) {
+    return {
+      ok: false,
+    };
+  }
+};
+
+const httpGetChannelSingleVideo = async ({ _id }) => {
+  try {
+    return await axios.get(
+      `${import.meta.env.VITE_CHANNEL_API_URL}/videos/${_id}`
+    );
+  } catch (error) {
+    return {
+      ok: false,
+    };
+  }
+};
+
+const httpChannelLogout = async () => {
   try {
     return await axios.post(
-      `${import.meta.env.VITE_CHANNEL_API_URL}/logout-channel`,
-      data
+      `${import.meta.env.VITE_CHANNEL_API_URL}/logout-channel`
     );
-    
   } catch (error) {
     return {
       ok: false,
@@ -91,6 +111,31 @@ const httpUpdateAvatar = async (data) => {
   }
 };
 
+const httpCommentVideoFromChannel = async ({ videoId, content }) => {
+  try {
+    return await axios.post(
+      `${import.meta.env.VITE_CHANNEL_API_URL}/comments/${videoId}`,
+      { content }
+    );
+  } catch (error) {
+    return {
+      ok: false,
+    };
+  }
+};
+
+const httpGetAllCommentsFromChannel = async ({ _id }) => {
+  try {
+    return await axios.get(
+      `${import.meta.env.VITE_CHANNEL_API_URL}/comments/${_id}`
+    );
+  } catch (error) {
+    return {
+      ok: false,
+    };
+  }
+};
+
 export {
   httpChannelRegister,
   httpChannelLogin,
@@ -99,4 +144,8 @@ export {
   httpUploadVideo,
   httpChangeChannelPassword,
   httpUpdateAvatar,
+  httpGetOwnVideos,
+  httpGetChannelSingleVideo,
+  httpCommentVideoFromChannel,
+  httpGetAllCommentsFromChannel,
 };

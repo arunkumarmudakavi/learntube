@@ -15,6 +15,7 @@ import {
   ChannelSignin,
   ChannelSignup,
   VideoUpload,
+  ChangePassword,
 } from "./components/index.js";
 import { Provider } from "react-redux";
 import store from "./redux/store.js";
@@ -54,6 +55,14 @@ const router = createBrowserRouter([
         ),
       },
       {
+        path: "/changePassword",
+        element: (
+          <AuthLayout authentication>
+            <ChangePassword />
+          </AuthLayout>
+        ),
+      },
+      {
         path: "/videos/:_id",
         element: <SingleVideo />,
       },
@@ -86,6 +95,14 @@ const router = createBrowserRouter([
         element: (
           <ChannelAuthLayout authentication>
             <ChannelProfile />
+          </ChannelAuthLayout>
+        ),
+      },
+      {
+        path: "/change-password",
+        element: (
+          <ChannelAuthLayout authentication>
+            <ChangePassword />
           </ChannelAuthLayout>
         ),
       },

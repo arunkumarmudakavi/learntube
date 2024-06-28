@@ -7,9 +7,9 @@ import {
   uploadVideoCloudinary,
 } from "../utils/cloudinary.js";
 import { Video } from "../models/video.model.js";
-import fs from 'fs'
-import zlib from 'zlib'
-
+import fs from "fs";
+import zlib from "zlib";
+import { Comment } from "../models/comment.model.js";
 
 const generateAccessAndRefreshTokens = async (channelId) => {
   try {
@@ -215,7 +215,7 @@ const uploadVideo = asyncHandler(async (req, res) => {
   // console.log(description);
   // console.log(req.body);
   // console.log(req.body.videoName);
- 
+
   const videoPath = req?.files[0]?.path;
   const thumb = req?.files[1]?.path;
 
@@ -249,11 +249,49 @@ const uploadVideo = asyncHandler(async (req, res) => {
     owner: channelId._id,
   });
 
-  if (!uploadVideo) throw new ApiError(500, "Something went wrong while uploading video on database");
+  if (!uploadVideo)
+    throw new ApiError(
+      500,
+      "Something went wrong while uploading video on database"
+    );
 
   return res
     .status(201)
     .json(new ApiResponse(200, uploadVideo, "Video uploaded successfully"));
+});
+
+const getOwnVideos = asyncHandler(async (req, res) => {
+  const { _id } = req.user?._id;
+  // console.log(_id);
+
+  const videos = await Video.aggregate([
+    {
+      $match: {
+        $expr: {
+          $eq: [
+            "$owner",
+            {
+              $toObjectId: _id,
+            },
+          ],
+        },
+      },
+    },
+  ]);
+  // console.log(videos);
+
+  return res
+    .status(201)
+    .json(new ApiResponse(201, videos, "Videos fetched successfully"));
+});
+
+const getVideo = asyncHandler(async (req, res) => {
+  const videoId = req.params._id;
+  const video = await Video.findById(videoId);
+
+  return res
+    .status(200)
+    .json(new ApiResponse(200, video, "Video fetched successfully"));
 });
 
 const getChannelDetails = asyncHandler(async (req, res) => {
@@ -286,21 +324,20 @@ const changePassword = asyncHandler(async (req, res) => {
 });
 
 const changeAvatar = asyncHandler(async (req, res) => {
-
   // console.log(req?.file?.path);
   // Single file that's why file. If multiple then it's files.
-  const newAvatarLocalPath = req?.file?.path
-  if(!newAvatarLocalPath) throw new ApiError(400, "Avatar not found")
+  const newAvatarLocalPath = req?.file?.path;
+  if (!newAvatarLocalPath) throw new ApiError(400, "Avatar not found");
 
-  const avatar = await uploadImageCloudinary(newAvatarLocalPath)
-  if(!avatar) throw new ApiError(400, "Error while uploading on cloudinary")
+  const avatar = await uploadImageCloudinary(newAvatarLocalPath);
+  if (!avatar) throw new ApiError(400, "Error while uploading on cloudinary");
 
   const user = await Channel.findByIdAndUpdate(
     req.user?._id,
     {
       $set: {
         avatar: avatar.url,
-      }
+      },
     },
     {
       new: true,
@@ -308,15 +345,58 @@ const changeAvatar = asyncHandler(async (req, res) => {
   ).select("-password");
 
   return res
-  .status(200)
-  .json(
-    new ApiResponse(
-      200,
-      user,
-      "Avatar updated successfully"
-    )
-  )
-})
+    .status(200)
+    .json(new ApiResponse(200, user, "Avatar updated successfully"));
+});
+
+const getAllComments = asyncHandler(async (req, res) => {
+  // console.log(req.params);
+  const videoId = req.params?._id;
+  // console.log({videoId});
+
+  if (!videoId) throw new ApiError(404, "Video Id Not Found!");
+
+  const comments = await Comment.find({ videoId });
+
+  // console.log(comments);
+  if (!comments) throw new ApiError(404, "Comments not found");
+
+  return res
+    .status(200)
+    .json(new ApiResponse(200, comments, "Comments fetched successfully"));
+});
+
+const commentsOnVideoByChannel = asyncHandler(async (req, res) => {
+  const videoId = req.params?._id;
+  const { content } = req.body;
+  // console.log(content);
+  const channelName = req.user?.channelName;
+  const commentedBy = req.user?._id;
+  // console.log(userName);
+  // console.log(commentedBy);
+
+  if (!commentedBy) throw new ApiError(404, "User Id Not Found");
+
+  if ([channelName, videoId, content].some((field) => field?.trim() === "")) {
+    throw new ApiError(
+      400,
+      "Error occurred while adding comment to the video!"
+    );
+  }
+
+  const comment = await Comment.create({
+    commentedBy,
+    userName: channelName,
+    videoId,
+    content,
+  });
+
+  if (!comment) throw new ApiError(404, "Comment Not Found!");
+
+  return res
+    .status(201)
+    .json(new ApiResponse(200, comment, "Comment added successfully..."));
+});
 
 export {
   refreshAccessToken,
@@ -327,4 +407,8 @@ export {
   getChannelDetails,
   changePassword,
   changeAvatar,
+  getOwnVideos,
+  getVideo,
+  getAllComments,
+  commentsOnVideoByChannel,
 };

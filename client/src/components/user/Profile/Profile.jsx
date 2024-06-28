@@ -1,30 +1,46 @@
 import React, { useEffect, useState } from "react";
-import { httpGetProfile, httpGetHistory } from "../../../hooks/userRequest.js";
-import { HistoryPostCard } from "../../index.js";
+import {
+  httpGetProfile,
+  httpGetHistory,
+  httpRemoveFromHistory,
+} from "../../../hooks/userRequest.js";
+import { Button, HistoryPostCard } from "../../index.js";
 import { useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 
 const Profile = () => {
   const [details, setDetails] = useState([]);
   const [history, setHistory] = useState([]);
-  // const userId = useSelector((state) => state.userAuth?.userDetails)
-  // console.log(userId);
+  const navigate = useNavigate();
+
+  const userStatus = useSelector((state) => state.userAuth?.status);
+  const channelStatus = useSelector((state) => state.channelAuth?.status);
 
   useEffect(() => {
-    httpGetProfile()
-      .then((res) => setDetails(res?.data))
-      .catch((err) => console.error(err));
+    if (userStatus) {
+      httpGetProfile()
+        .then((res) => setDetails(res?.data))
+        .catch((err) => console.error(err));
 
-    httpGetHistory()
-      .then((res) => {
-        setHistory(res?.data);
-        console.log(res?.data);
-      })
-      .catch((err) => console.error(err));
+      httpGetHistory()
+        .then((res) => {
+          setHistory(res?.data);
+          console.log(res?.data);
+        })
+        .catch((err) => console.error(err));
+    }
   }, []);
 
-  // console.log(history?.data);
-  // console.log(history?.data[0]?.result[0]?.title);
-  // console.log(details?.data);
+  const removeHistory = () => {
+    httpRemoveFromHistory()
+      .then(() => navigate("/profile"))
+      .catch((err) => console.error(err));
+  };
+
+  const changePassword = () => {
+    navigate("/changePassword");
+  };
+
   return (
     <section className="flex justify-evenly h-lvh ">
       <section className="flex-col flex bg-white p-6 m-6 w-full rounded border-slate-400 border-2 border-opacity-25">
@@ -65,6 +81,11 @@ const Profile = () => {
           value={details?.data?.mobileNumber}
           disabled
         />
+        <Button
+          onClick={() => changePassword()}
+          type="submit"
+          children="change password"
+        />
       </section>
       <span className=" border-r-2 border-opacity-25 border-slate-400"></span>
       {!history ? (
@@ -75,9 +96,15 @@ const Profile = () => {
       ) : (
         <section className="w-full p-6 ">
           <center className="text-4xl font-semibold">History</center>
-
+          {/* {console.log(history)} */}
+          {history?.data?.length === 0 ? null : (
+            <button onClick={() => removeHistory()}>Remove All</button>
+          )}
           {history?.data?.map((post) => (
-            <div className="py-2 border-2 border-gray-300 rounded m-2" key={post?._id}>
+            <div
+              className="py-2 border-2 border-gray-300 rounded m-2"
+              key={post?._id}
+            >
               <HistoryPostCard {...post} />
             </div>
           ))}
