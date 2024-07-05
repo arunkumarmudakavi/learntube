@@ -15,46 +15,47 @@ const Profile = () => {
   };
 
   return (
-    <section className="flex justify-evenly h-lvh ">
-      <section className="flex-col flex bg-white p-6 m-6 w-full rounded border-slate-400 border-2 border-opacity-25">
+    <section className="flex justify-evenly h-lvh bg-zinc-800 text-white">
+      <section className="flex-col flex p-6 m-6 w-full rounded bg-zinc-700 border-opacity-25">
         <center className="text-4xl font-semibold mb-6">Profile</center>
-        <label htmlFor="firstName" className="font-bold text-3xl">
+        <label htmlFor="firstName" id="firstName" className="font-bold text-3xl">
           First Name:{" "}
         </label>
         <input
-          className="bg-gray-200 p-3 mb-6 rounded font-semibold text-2xl"
+          className="bg-gray-200 text-black p-3 mb-6 rounded font-semibold text-2xl"
           type="text"
           value={details?.data?.data?.firstName}
           disabled
         />
-        <label htmlFor="lastName" className="font-bold text-3xl">
+        <label htmlFor="lastName" id="lastName" className="font-bold text-3xl">
           Last Name:{" "}
         </label>
         <input
-          className="bg-gray-200 p-3 mb-6 rounded font-semibold text-2xl"
+          className="bg-gray-200 text-black p-3 mb-6 rounded font-semibold text-2xl"
           type="text"
           value={details?.data?.data?.lastName}
           disabled
         />
-        <label htmlFor="email" className="font-bold text-3xl">
+        <label htmlFor="email" id="email" className="font-bold text-3xl">
           Email:{" "}
         </label>
         <input
-          className="bg-gray-200 p-3 mb-6 rounded font-semibold text-2xl"
+          className="bg-gray-200 text-black p-3 mb-6 rounded font-semibold text-2xl"
           type="text"
           value={details?.data?.data?.email}
           disabled
         />
-        <label htmlFor="mobileNumber" className="font-bold text-3xl">
+        <label htmlFor="mobileNumber" id="mobileNumber" className="font-bold text-3xl">
           Mobile Number:{" "}
         </label>
         <input
-          className="bg-gray-200 p-3 mb-6 rounded font-semibold text-2xl"
+          className="bg-gray-200 text-black p-3 mb-6 rounded font-semibold text-2xl"
           type="text"
           value={details?.data?.data?.mobileNumber}
           disabled
         />
         <Button
+          className="text-white bg-slate-400 w-60 h-16 font-semibold text-2xl rounded-md"
           onClick={() => changePassword()}
           type="submit"
           children="change password"

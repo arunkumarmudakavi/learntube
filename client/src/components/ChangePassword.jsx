@@ -52,8 +52,8 @@ const ChangePassword = () => {
   };
 
   return (
-    <div className="flex flex-col min-h-96 m-16 rounded justify-center items-center bg-indigo-500">
-      <span className="text-6xl m-6 font-semibold">Change Password</span>
+    <div className="flex flex-col min-h-96 m-16 rounded justify-center items-center shadow-2xl bg-zinc-800">
+      <span className="text-6xl m-6 text-white font-semibold">Change Password</span>
       <form
         className="flex flex-col mb-4"
         onSubmit={handleSubmit(passwordChange)}
@@ -71,7 +71,7 @@ const ChangePassword = () => {
           {...register("newPassword", { required: true })}
         />
         <Button
-          className="border-white w-96 border-2 rounded p-2 text-xl font-bold text-white"
+          className="w-96 rounded p-2 text-xl font-bold text-black bg-slate-400"
           type="submit"
           children="Change Password"
         />

@@ -29,8 +29,8 @@ const Signin = () => {
   };
 
   return (
-    <div className="flex flex-col min-h-96 m-16 rounded justify-center items-center bg-indigo-500">
-      <span className="text-6xl m-6 font-semibold">Sign In</span>
+    <div className="flex flex-col min-h-96 m-16 rounded justify-center items-center shadow-2xl bg-zinc-800">
+      <span className="text-6xl m-6 text-white font-semibold">Sign In</span>
       <form className="flex flex-col mb-4" onSubmit={handleSubmit(login)}>
         <Input
           className="p-4 rounded-md font-bold mb-3 w-96"
@@ -46,7 +46,7 @@ const Signin = () => {
         />
         <Button className="border-white w-96 border-2 rounded p-2 text-xl font-bold text-white" type="submit" children="Sign In" />
       </form>
-      <section className="font-bold text-xl mb-6">
+      <section className="font-bold text-xl mb-6 text-white">
         Don't have an account?
         <Link to="/register" className="underline"> Sign Up</Link>
       </section>

@@ -30,17 +30,17 @@ const Signin = () => {
   };
 
   return (
-    <div className="flex flex-col min-h-96 m-16 rounded justify-center items-center bg-indigo-500">
+    <div className="flex flex-col min-h-96 m-16 rounded justify-center items-center text-white bg-zinc-800">
       <span className="text-6xl m-6 font-semibold">Channel Sign In</span>
       <form className="flex flex-col mb-4" onSubmit={handleSubmit(login)}>
         <Input
-          className="p-4 rounded-md font-bold mb-3 w-96"
+          className="text-black p-4 rounded-md font-bold mb-3 w-96"
           type="email"
           placeholder="enter email"
           {...register("email", { required: true })}
         />
         <Input
-          className="p-4 rounded-md font-bold mb-3 w-96"
+          className="text-black p-4 rounded-md font-bold mb-3 w-96"
           type="password"
           placeholder="enter password"
           {...register("password", { required: true })}

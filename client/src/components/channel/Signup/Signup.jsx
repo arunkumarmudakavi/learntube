@@ -24,17 +24,17 @@ const Signup = () => {
   };
 
   return (
-    <div className="flex flex-col min-h-96 m-16 rounded justify-center items-center bg-indigo-500">
+    <div className="flex flex-col min-h-96 m-16 rounded justify-center items-center text-white bg-zinc-800">
       <span className="text-6xl m-6 font-semibold">Channel Registration</span>
       <form className="flex flex-col mb-4" onSubmit={handleSubmit(userRegister)}>
         <Input
-          className="p-4 rounded-md font-bold mb-3 w-96"
+          className="text-black p-4 rounded-md font-bold mb-3 w-96"
           type="text"
           placeholder="First Name"
           {...register("firstName", { required: true })}
         />
         <Input
-          className="p-4 rounded-md font-bold mb-3 w-96"
+          className="text-black p-4 rounded-md font-bold mb-3 w-96"
           type="text"
           placeholder="Last Name"
           {...register("lastName", { required: true })}

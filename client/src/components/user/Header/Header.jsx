@@ -56,7 +56,7 @@ const Header = () => {
   return (
     <header>
         <Container>
-            <nav className="bg-indigo-500 flex justify-around pt-6 pb-6 text-white">
+            <nav className="bg-slate-400 shadow-2xl flex justify-around pt-6 pb-6 text-white">
                 <div className="caret-violet-50 text-4xl italic font-extrabold">
                     <Link to='/'>LearnTUBE</Link>
                 </div>

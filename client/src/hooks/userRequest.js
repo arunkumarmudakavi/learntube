@@ -73,9 +73,10 @@ const httpGetSingleVideo = async ({ _id }) => {
   }
 };
 
-const httpLikeVideo = async ({ _id }) => {
+const httpLikeVideo = async (_id) => {
+  console.log(_id);
   try {
-    return await axios.put(`${import.meta.env.VITE_API_URL}/likes/${_id}`);
+    return await axios.post(`${import.meta.env.VITE_API_URL}/likes/${_id}`);
   } catch (error) {
     return {
       ok: false,
@@ -83,7 +84,8 @@ const httpLikeVideo = async ({ _id }) => {
   }
 };
 
-const httpGetAllLikes = async ({ _id }) => {
+const httpGetAllLikes = async (_id) => {
+  // console.log(_id)
   try {
     return await axios.get(`${import.meta.env.VITE_API_URL}/likes/${_id}`);
   } catch (error) {

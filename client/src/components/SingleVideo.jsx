@@ -11,18 +11,18 @@ import {
 import ReactPlayer from "react-player";
 import LikeButton from "./LikeButton.jsx";
 import { useForm } from "react-hook-form";
-import {
-  Input,
-  Button,
-  CommentPostCard,
-  TextArea,
-} from "../components/index.js";
+import { Button, CommentPostCard, TextArea } from "../components/index.js";
 import { useSelector } from "react-redux";
-import { httpGetChannelSingleVideo, httpGetAllCommentsFromChannel, httpCommentVideoFromChannel } from "../hooks/channelRequest.js";
+import {
+  httpGetChannelSingleVideo,
+  httpGetAllCommentsFromChannel,
+  httpCommentVideoFromChannel,
+} from "../hooks/channelRequest.js";
 
 const SingleVideo = () => {
   const [post, setPost] = useState();
   const [comments, setComments] = useState([]);
+  // const [textArea, setTextArea] = useState('');
   const { _id } = useParams();
   const navigate = useNavigate();
   const { register, handleSubmit } = useForm();
@@ -31,15 +31,11 @@ const SingleVideo = () => {
 
   // console.log(channelState);
   const userStatus = useSelector((state) => state.userAuth?.status);
-  // console.log(userName);
+  const userId = useSelector((state) => state?.userAuth?.userData?.data?.data?._id);
+  // console.log(userId);
 
   // const [click, setClick] = useState(false);
 
-  // function likeButtonClick({ _id }) {
-  //   httpLikeVideo({ _id })
-  //     // .then(() => setClick(true))
-  //     .then((data) => console.log(data));
-  // }
 
   useEffect(() => {
     // console.log({_id});
@@ -64,36 +60,58 @@ const SingleVideo = () => {
   }, [_id, navigate]);
 
   useEffect(() => {
+    httpStoreHistory({ _id }).catch((err) => console.error(err));
+  }, [])
+
+  useEffect(() => {
     if (userStatus) {
-      httpStoreHistory({ _id }).catch((err) => console.error(err));
-
       httpGetAllCommentsOnVideo({ _id })
-        .then((data) => setComments(data?.data))
+        .then((data) => {
+          
+          setComments(data?.data?.data)
+          // console.log(comments?.data)
+        })
         .catch((err) => console.error(err));
     }
 
-    if (channelStatus) {
-      console.log({_id})
-      httpGetAllCommentsFromChannel({ _id })
-        .then((data) => {
-          console.log(data)
-          setComments(data?.data)})
-        .catch((err) => console.error(err));
-    }
+    // if (channelStatus) {
+    //   console.log({ _id });
+    //   httpGetAllCommentsFromChannel({ _id })
+    //     .then((data) => {
+    //       console.log(data);
+    //       setComments(data?.data);
+    //     })
+    //     .catch((err) => console.error(err));
+    // }
+    
   }, []);
 
 
+
+  
+// console.log('comments', comments);
   const submitComment = async (data) => {
     try {
-      
       if (userStatus) {
         httpCommentVideo(data)
-        .catch((err) => console.error(err))
+        .then((response) => {
+          console.log(response);
+          setComments((prevState) => [...prevState, response?.data?.data])
+          // setComments(data?.data)
+          // setTextArea("")
+          
+        })
+        .catch((err) => console.error(err));
       }
-      
+      // console.log(comments);
+
       if (channelStatus) {
         httpCommentVideoFromChannel(data)
-        .catch((err) => console.error(err))
+        .then((response) => {
+          setComments((prevState) => [...prevState, response?.data?.data])
+          
+        })
+        .catch((err) => console.error(err));
       }
     } catch (error) {
       // setError(error.message);
@@ -102,7 +120,7 @@ const SingleVideo = () => {
   };
 
   return post ? (
-    <div className="  mx-48 my-4">
+    <div className="bg-zinc-800 text-white px-48 py-4">
       <div className="p-8 ">
         <ReactPlayer
           className=""
@@ -120,7 +138,7 @@ const SingleVideo = () => {
           </section>
           {/* <button onClick={() => likeButtonClick({_id}) }>Like</button> */}
 
-          <LikeButton par={_id} />
+          <LikeButton  par={_id} userId={userId}/>
         </section>
       </div>
       <span className="text-4xl ml-2 font-bold">Comments</span>
@@ -128,26 +146,59 @@ const SingleVideo = () => {
         className="flex flex-col my-4"
         onSubmit={handleSubmit((data) => {
           data.videoId = _id;
-          submitComment(data);
+          submitComment(data)
+          // setTextArea(data?.content)
         })}
       >
         <TextArea
-          className="p-4 rounded-md font-bold mb-3 w-full textarea-lg border-2"
+          className="p-4 text-black rounded-md font-bold mb-3 w-full text-2xl textarea-lg"
           type="textArea"
           placeholder="Add Comments..."
           {...register("content", { required: true })}
         />
-        <Button className="" type="submit" children="Add" />
+        <Button
+          className="text-black font-bold bg-slate-400 w-40 h-10 rounded-md text-xl"
+          type="submit"
+          children="Add"
+        />
       </form>
       <section>
-        {comments?.data?.map((comment) => (
+        {comments?.map((comment) => (
           <div className="mb-2" key={comment?._id}>
             <CommentPostCard {...comment} />
           </div>
         ))}
       </section>
     </div>
-  ) : null;
+  ) : (
+    <div
+      id="loading-overlay"
+      class="fixed inset-0 z-50 flex items-center justify-center bg-gray-900 bg-opacity-60"
+    >
+      <svg
+        class="animate-spin h-8 w-8 text-white mr-3"
+        xmlns="http://www.w3.org/2000/svg"
+        fill="none"
+        viewBox="0 0 24 24"
+      >
+        <circle
+          class="opacity-25"
+          cx="12"
+          cy="12"
+          r="10"
+          stroke="currentColor"
+          stroke-width="4"
+        ></circle>
+        <path
+          class="opacity-75"
+          fill="currentColor"
+          d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+        ></path>
+      </svg>
+
+      <span class="text-white text-3xl font-bold">Loading...</span>
+    </div>
+  );
 };
 
 export default SingleVideo;

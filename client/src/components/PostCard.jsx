@@ -1,20 +1,21 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 // import { CiSquareRemove } from "react-icons/ci";
 
 const PostCard = ({ _id, title, thumbnail, description }) => {
+
   return (
     <Link to={`/videos/${_id}`}>
-      <section className="border-red-3 border-2 p-4 rounded">
+      <section className="shadow-2xl p-4 rounded">
         <img className="h-96" src={thumbnail} alt={title} />
         <section className="flex-col flex text-ellipsis font-semibold">
-          <span>{title}</span>
+          <span className="text-2xl">{title}</span>
           <span>{description}</span>
           {/* <span>{owner}</span> */}
         </section>
       </section>
     </Link>
-  );
+  )
 };
 
 const HistoryPostCard = ({ ...post }) => {
@@ -27,7 +28,7 @@ const HistoryPostCard = ({ ...post }) => {
     <>
       {/* {console.log(post?._id)}     */}
       <Link to={`/videos/${post?._id}`}>
-        <section className="flex justify-between">
+        <section className="flex justify-between ">
           <section className="flex">
             <img
               className="pl-4 rounded w-44 mr-5"
@@ -46,10 +47,10 @@ const HistoryPostCard = ({ ...post }) => {
 };
 
 const CommentPostCard = ({ _id, userName, content }) => {
-  console.log(userName);
+  // console.log(userName);
   return (
     <Link to={`/videos/${_id}`}>
-      <section className="border-red-3 border-2 p-4 rounded">
+      <section className="shadow-2xl p-4 text-xl rounded">
         <section className="flex-col flex text-ellipsis font-semibold">
           <span>{userName}</span>
           <span>{content}</span>

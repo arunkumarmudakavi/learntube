@@ -1,40 +1,39 @@
-import React, { useEffect, useState } from 'react'
-import { useSelector } from 'react-redux';
-import { httpGetOwnVideos } from '../../../hooks/channelRequest.js';
-import Container from '../../container/Container.jsx';
-import {PostCard} from '../../index.js'
+import React, { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
+import { httpGetOwnVideos } from "../../../hooks/channelRequest.js";
+import Container from "../../container/Container.jsx";
+import { PostCard } from "../../index.js";
 
 const Home = () => {
   const [posts, setPosts] = useState([]);
-    const channelAuth = useSelector((state) => state.channelAuth.status);
-    // console.log(channelAuth);
+  const channelAuth = useSelector((state) => state.channelAuth.status);
+  // console.log(channelAuth);
 
-    
   useEffect(() => {
-    httpGetOwnVideos()
-    .then((posts) => {
-        if(posts) setPosts(posts);
-    })
+    httpGetOwnVideos().then((posts) => {
+      if (posts) setPosts(posts);
+    });
   }, []);
 
-  if(channelAuth != true) {
-    return <div>
-    <Container>Login to get videos</Container>
-  </div>
+  if (!channelAuth) {
+    return (
+      <div>
+        <Container>Login to get videos</Container>
+      </div>
+    );
   }
-  
 
-  return <div>
-    <div className='grid grid-cols-4 mx-8'>
-        {
-            posts?.data?.data?.map((post) => (
-                <div className='mx-6 my-4 ' key={post?._id}>
-                    <PostCard {...post}/>
-                </div>
-            ))
-        }
+  return (
+    <div className="bg-zinc-800">
+      <div className="grid grid-cols-4 mx-8">
+        {posts?.data?.data?.map((post) => (
+          <div className="mx-6 my-4 text-white" key={post?._id}>
+            <PostCard {...post} />
+          </div>
+        ))}
+      </div>
     </div>
-  </div>
-}
+  );
+};
 
-export default Home
+export default Home;

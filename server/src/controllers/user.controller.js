@@ -261,6 +261,7 @@ const likesOnVideo = asyncHandler(async (req, res) => {
       videoId: video?._id,
     });
 
+    console.log(existingLikeByUser);
     // check whether the user already liked to the video
     if (existingLikeByUser) {
       await Likes.findByIdAndDelete(existingLikeByUser?._id);
@@ -273,7 +274,7 @@ const likesOnVideo = asyncHandler(async (req, res) => {
         likedBy: loggedInUser,
         videoId: videoId,
       });
-      // console.log(LikedVideo);
+      console.log(LikedVideo);
       return res
         .status(200)
         .json(new ApiResponse(200, LikedVideo, "video liked"));
@@ -282,6 +283,7 @@ const likesOnVideo = asyncHandler(async (req, res) => {
     throw new ApiError(500, error, "something went wrong");
   }
 });
+
 
 const getAllLikes = asyncHandler(async (req, res) => {
   const videoId = req.params?._id;
@@ -294,22 +296,24 @@ const getAllLikes = asyncHandler(async (req, res) => {
       //   videoId: videoId
       // }
     },
-    {
+    /*{
       $group: {
         _id: "$videoId",
         quantity: {
           $sum: 1,
         },
       },
-    },
+    }*/
   ]);
 
-  console.log(likes[0].quantity);
+  
+
+  console.log(likes);
 
   return res
     .status(200)
     .json(
-      new ApiResponse(200, likes[0].quantity, "Likes fetched successfully")
+      new ApiResponse(200, likes, "Likes fetched successfully")
     );
 });
 

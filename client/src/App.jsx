@@ -13,7 +13,7 @@ axios.defaults.withCredentials = true;
 const App = () => {
   const [loading, setLoading] = useState(true);
   const dispatch = useDispatch();
-  // const userInfo = useSelector((state) => state.userAuth?.userData)
+  const userInfo = useSelector((state) => state.userAuth?.status)
   // console.log(userInfo);
 
   // useEffect(() => {
@@ -40,9 +40,9 @@ const App = () => {
 
   return !loading ? (
     <>
-      <Header />
+      <Header/>
       <main>
-        <Outlet />
+        <Outlet/>
       </main>
     </>
   ) : (
