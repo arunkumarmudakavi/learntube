@@ -45,8 +45,8 @@ const VideoUpload = () => {
   };
 
   return !loader ? (
-    <div className="flex flex-col min-h-96 m-16 rounded justify-center items-center bg-indigo-500">
-      <span className="text-6xl my-10 font-semibold">Upload Video</span>
+    <div className="flex flex-col min-h-96 m-16 rounded justify-center items-center gray-background-color">
+      <span className="text-6xl my-10 font-semibold secondary-color">Upload Video</span>
       <form onSubmit={upload} className="flex flex-col mb-4">
         <div className="flex flex-col justify-center">
           <div className="font-semibold text-2xl">Upload Video</div>
@@ -108,7 +108,7 @@ const VideoUpload = () => {
           />
         </div>
         <Button
-          className="border-white w-96 border-2 rounded p-2 mt-3 mb-6 text-xl font-bold text-white"
+          className="primary-background-color w-96 rounded p-2 mt-3 mb-6 text-xl font-bold text-white"
           type="submit"
           children="upload"
         />

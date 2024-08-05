@@ -19,6 +19,7 @@ const Input = forwardRef(({ label, type = "text", className = "", ...props }, re
 const TextArea = forwardRef(
   ({ label, type = "text", className = "", ...props }, ref) => {
     const id = useId();
+    // console.log(ref);
     return (
       <>
         {label && <label htmlFor={id}>{label}</label>}

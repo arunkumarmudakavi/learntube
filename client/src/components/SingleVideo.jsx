@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import {
   httpGetSingleVideo,
@@ -22,10 +22,11 @@ import {
 const SingleVideo = () => {
   const [post, setPost] = useState();
   const [comments, setComments] = useState([]);
-  // const [textArea, setTextArea] = useState('');
+  const [textArea, setTextArea] = useState('');
   const { _id } = useParams();
   const navigate = useNavigate();
-  const { register, handleSubmit } = useForm();
+  const { register, handleSubmit, reset } = useForm();
+  const inputRef = useRef(null)
 
   const channelStatus = useSelector((state) => state.channelAuth?.status);
 
@@ -60,7 +61,9 @@ const SingleVideo = () => {
   }, [_id, navigate]);
 
   useEffect(() => {
-    httpStoreHistory({ _id }).catch((err) => console.error(err));
+    if (userStatus) {
+      httpStoreHistory({ _id }).catch((err) => console.error(err));
+    }
   }, [])
 
   useEffect(() => {
@@ -98,7 +101,7 @@ const SingleVideo = () => {
           console.log(response);
           setComments((prevState) => [...prevState, response?.data?.data])
           // setComments(data?.data)
-          // setTextArea("")
+          setTextArea("")
           
         })
         .catch((err) => console.error(err));
@@ -120,7 +123,7 @@ const SingleVideo = () => {
   };
 
   return post ? (
-    <div className="bg-zinc-800 text-white px-48 py-4">
+    <div className="secondary-background-color text-white px-48 py-4">
       <div className="p-8 ">
         <ReactPlayer
           className=""
@@ -147,7 +150,8 @@ const SingleVideo = () => {
         onSubmit={handleSubmit((data) => {
           data.videoId = _id;
           submitComment(data)
-          // setTextArea(data?.content)
+          
+          reset();
         })}
       >
         <TextArea

@@ -25,11 +25,11 @@ const Profile = () => {
       httpGetHistory()
         .then((res) => {
           setHistory(res?.data);
-          console.log(res?.data);
+          // console.log(res?.data);
         })
         .catch((err) => console.error(err));
     }
-  }, [history]);
+  }, []);
 
   const removeHistory = () => {
     httpRemoveFromHistory()
@@ -45,10 +45,10 @@ const Profile = () => {
   };
 
   return (
-    <section className="flex justify-evenly h-lvh bg-zinc-800 text-white">
-      <section className="flex-col flex p-6 m-6 w-full rounded bg-zinc-700 border-opacity-25">
-        <center className="text-4xl font-semibold mb-6">Profile</center>
-        <label htmlFor="firstName" id="firstName" className="font-bold text-3xl">
+    <section className="flex justify-evenly h-lvh secondary-background-color text-white">
+      <section className="flex-col flex p-6 m-6 w-full gray-background-color  rounded border-opacity-25">
+        <center className="secondary-color text-4xl font-semibold mb-6">Profile</center>
+        <label htmlFor="firstName" id="firstName" className="secondary-color font-bold text-3xl">
           First Name:{" "}
         </label>
         <input
@@ -57,7 +57,7 @@ const Profile = () => {
           value={details?.data?.firstName}
           disabled
         />
-        <label htmlFor="lastName" id="lastName" className="font-bold text-3xl">
+        <label htmlFor="lastName" id="lastName" className="secondary-color font-bold text-3xl">
           Last Name:{" "}
         </label>
         <input
@@ -66,7 +66,7 @@ const Profile = () => {
           value={details?.data?.lastName}
           disabled
         />
-        <label htmlFor="email" id="email" className="font-bold text-3xl">
+        <label htmlFor="email" id="email" className="secondary-color font-bold text-3xl">
           Email:{" "}
         </label>
         <input
@@ -75,7 +75,7 @@ const Profile = () => {
           value={details?.data?.email}
           disabled
         />
-        <label htmlFor="mobileNumber" id="mobileNumber" className="font-bold text-3xl">
+        <label htmlFor="mobileNumber" id="mobileNumber" className="secondary-color font-bold text-3xl">
           Mobile Number:{" "}
         </label>
         <input
@@ -85,7 +85,7 @@ const Profile = () => {
           disabled
         />
         <Button
-        className="text-white bg-slate-400 w-60 h-16 font-semibold text-2xl rounded-md"
+        className="text-white primary-background-color w-60 h-16 font-semibold text-2xl rounded-md"
           onClick={() => changePassword()}
           type="submit"
           children="change password"

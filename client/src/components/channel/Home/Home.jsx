@@ -24,7 +24,7 @@ const Home = () => {
   }
 
   return (
-    <div className="bg-zinc-800">
+    <div className="">
       <div className="grid grid-cols-4 mx-8">
         {posts?.data?.data?.map((post) => (
           <div className="mx-6 my-4 text-white" key={post?._id}>

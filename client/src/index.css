@@ -11,4 +11,40 @@
     padding: 1.051%;
     background-color: #666;
   }
+
+.primary-background-color {
+  background-color:#7300E6;
+}
+
+.secondary-background-color {
+  background-color: #201926;
+}
+
+.gray-background-color {
+  background-color: #9F88B2;
+}
+
+.white-background-color {
+  background-color: #FDF7FF;
+}
+
+.primary-color {
+  color:#7300E6;
+}
+
+.secondary-color {
+  color: #201926;
+}
+
+.gray-color {
+  color: #9F88B2;
+}
+
+.white-color {
+  color: #FDF7FF;
+}
   
+.thumbnail-size {
+  height: 18rem;
+  width: 42rem;
+}

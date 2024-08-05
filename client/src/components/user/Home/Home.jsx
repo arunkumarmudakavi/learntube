@@ -3,9 +3,11 @@ import { httpGetVideos } from '../../../hooks/userRequest'
 import { useSelector } from 'react-redux';
 import Container from '../../container/Container';
 import {PostCard} from "../../index.js";
+import { useNavigate } from 'react-router-dom';
 
 const Home = () => {
     const [posts, setPosts] = useState([]);
+    const navigate = useNavigate();
     
     const userAuth = useSelector((state) => state.userAuth.status);
     // console.log(userAuth);
@@ -19,20 +21,16 @@ const Home = () => {
   }, []);
 
   if(!userAuth) {
-    return <div className="flex min-h-96 justify-center items-center">
-    <section className='font-bold italic text-5xl'>Login to get videos</section>
-  </div>
+    return navigate("/login")
   }
   
 
-  return <div className="bg-zinc-800">
+  return <div className="">
     <div className='grid grid-cols-4 mx-8'>
         {
-          // console.log(posts)
-          // <p>{posts}</p>
             posts?.data?.data?.map((post) => (
                 <div className='mx-6 my-4 text-white' key={post?._id}>
-                    <PostCard {...post}/>
+                    <PostCard { ...post}/>
                 </div>
             ))
         }

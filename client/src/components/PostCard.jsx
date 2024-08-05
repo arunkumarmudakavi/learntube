@@ -6,11 +6,11 @@ const PostCard = ({ _id, title, thumbnail, description }) => {
 
   return (
     <Link to={`/videos/${_id}`}>
-      <section className="shadow-2xl p-4 rounded">
-        <img className="h-96" src={thumbnail} alt={title} />
+      <section className="shadow-2xl p-4 rounded secondary-background-color">
+        <img className="thumbnail-size rounded" src={thumbnail} alt={title} />
         <section className="flex-col flex text-ellipsis font-semibold">
-          <span className="text-2xl">{title}</span>
-          <span>{description}</span>
+          <span className="text-2xl truncate">{title}</span>
+          <span className="truncate">{description}</span>
           {/* <span>{owner}</span> */}
         </section>
       </section>

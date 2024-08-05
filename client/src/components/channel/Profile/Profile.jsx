@@ -15,9 +15,9 @@ const Profile = () => {
   };
 
   return (
-    <section className="flex justify-evenly h-lvh bg-zinc-800 text-white">
-      <section className="flex-col flex p-6 m-6 w-full rounded bg-zinc-700 border-opacity-25">
-        <center className="text-4xl font-semibold mb-6">Profile</center>
+    <section className="flex justify-evenly h-lvh secondary-background-color text-white">
+      <section className="flex-col flex p-6 m-6 w-full rounded gray-background-color border-opacity-25">
+        <center className="text-4xl font-semibold mb-6 secondary-color">Profile</center>
         <label htmlFor="firstName" id="firstName" className="font-bold text-3xl">
           First Name:{" "}
         </label>
@@ -55,7 +55,7 @@ const Profile = () => {
           disabled
         />
         <Button
-          className="text-white bg-slate-400 w-60 h-16 font-semibold text-2xl rounded-md"
+          className="text-white primary-background-color w-60 h-16 font-semibold text-2xl rounded-md"
           onClick={() => changePassword()}
           type="submit"
           children="change password"

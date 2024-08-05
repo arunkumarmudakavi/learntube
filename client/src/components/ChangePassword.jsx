@@ -10,28 +10,34 @@ import {
   httpChangeChannelPassword,
   httpChannelLogout,
 } from "../hooks/channelRequest.js";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { userLogout } from "../features/userAuthSlice.js";
+import { channelLogout } from "../features/channelAuthSlice.js";
 
 const ChangePassword = () => {
   const { register, handleSubmit } = useForm();
   const [error, setError] = useState("");
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const userStatus = useSelector((state) => state.userAuth?.status);
   const channelStatus = useSelector((state) => state.channelAuth?.status);
-  console.log(userStatus);
-  console.log(channelStatus);
+  // console.log(userStatus);
+  // console.log(channelStatus);
 
   const passwordChange = async (data) => {
     console.log(data);
     try {
       if (userStatus) {
         const res = await httpChangeUserPassword(data);
-        console.log(res);
+        console.log(res?.data);
         if (res?.data?.success) {
           httpUserLogout()
-            .then(() => navigate("/login"))
-            .catch((err) => console.error(err));
+          .then(() => {
+            dispatch(userLogout())
+            navigate('/login')
+          })
+          .catch((err) => console.log(err))
         }
       }
 
@@ -39,9 +45,16 @@ const ChangePassword = () => {
         const res = await httpChangeChannelPassword(data);
         console.log(res);
         if (res?.data?.success) {
-          httpChannelLogout()
-            .then(() => navigate("/login-channel"))
+          const response = await httpChannelLogout()
+
+          if (response?.data?.success) {
+            httpChannelLogout()
+            .then(() => {
+              dispatch(channelLogout())
+              navigate("/login-channel")
+            })
             .catch((err) => console.error(err));
+          }
         }
       }
     } catch (error) {
@@ -52,8 +65,8 @@ const ChangePassword = () => {
   };
 
   return (
-    <div className="flex flex-col min-h-96 m-16 rounded justify-center items-center shadow-2xl bg-zinc-800">
-      <span className="text-6xl m-6 text-white font-semibold">Change Password</span>
+    <div className="flex flex-col min-h-96 m-16 rounded justify-center items-center shadow-2xl gray-background-color">
+      <span className="text-6xl m-6 secondary-color font-semibold">Change Password</span>
       <form
         className="flex flex-col mb-4"
         onSubmit={handleSubmit(passwordChange)}
@@ -71,7 +84,7 @@ const ChangePassword = () => {
           {...register("newPassword", { required: true })}
         />
         <Button
-          className="w-96 rounded p-2 text-xl font-bold text-black bg-slate-400"
+          className="w-96 rounded p-2 text-xl font-bold text-white primary-background-color"
           type="submit"
           children="Change Password"
         />
