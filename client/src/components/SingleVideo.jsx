@@ -29,8 +29,6 @@ const SingleVideo = () => {
   const inputRef = useRef(null)
 
   const channelStatus = useSelector((state) => state.channelAuth?.status);
-
-  // console.log(channelState);
   const userStatus = useSelector((state) => state.userAuth?.status);
   const userId = useSelector((state) => state?.userAuth?.userData?.data?.data?._id);
   // console.log(userId);

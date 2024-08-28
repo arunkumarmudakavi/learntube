@@ -452,6 +452,27 @@ const removeFromHistory = asyncHandler(async (req, res) => {
   return res.status(201).json(new ApiResponse(201, "Removed Successfully"));
 });
 
+const searchVideo = asyncHandler( async (req, res) => {
+  const searchKey = req.params?.key;
+  console.log(searchKey)
+
+  const searchedVideo = await Video.find(
+    {
+      "$or": [
+        { "title": {$regex: searchKey}}
+      ]
+    }
+  );
+
+  return res
+  .status(200)
+  .json(new ApiResponse(
+    200,
+    searchedVideo,
+    "Item Searched Successfully"
+  ))
+})
+
 export {
   generateAccessAndRefreshTokens,
   registerUser,
@@ -469,4 +490,5 @@ export {
   storeHistory,
   getHistory,
   removeFromHistory,
+  searchVideo,
 };

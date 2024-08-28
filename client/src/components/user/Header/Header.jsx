@@ -2,6 +2,7 @@ import React from 'react'
 import {useNavigate, Link} from 'react-router-dom'
 import {Container, LogoutButton, LogoutChannel} from '../../index.js'
 import { useSelector } from 'react-redux';
+import { SearchBar } from '../../SearchBar.jsx';
 
 const Header = () => {
     const navigate = useNavigate();
@@ -61,6 +62,13 @@ const Header = () => {
                     <Link to='/'>LearnTUBE</Link>
                 </div>
                 <ul className='flex items-center'>
+                {
+                        ( channelAuthStatus || userAuthStatus) && (
+                            <li>
+                                <SearchBar/>
+                            </li>
+                        )
+                    }
                     {
                         navItems.map((item) => 
                         item.active ? (

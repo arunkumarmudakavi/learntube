@@ -15,6 +15,7 @@ import {
   storeHistory,
   getHistory,
   removeFromHistory,
+  searchVideo,
 } from "../controllers/user.controller.js";
 import { verifyJWT } from "../middlewares/auth.middleware.js";
 // import { Likes } from "../models/likes.model.js";
@@ -39,5 +40,7 @@ userRouter.route("/comments/:_id").get(verifyJWT, getAllComments);
 userRouter.route("/history/:_id").post(verifyJWT, storeHistory);
 userRouter.route("/history").get(verifyJWT, getHistory);
 userRouter.route("/history").delete(verifyJWT, removeFromHistory);
+
+userRouter.route("/:key").get(verifyJWT, searchVideo)
 
 export { userRouter };

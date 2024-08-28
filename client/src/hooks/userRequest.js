@@ -108,6 +108,17 @@ const httpCommentVideo = async ({ videoId, content }) => {
   }
 };
 
+const httpSearchVideo = async ({ content }) => {
+  try {
+    // console.log(content)
+    return await axios.get(`${import.meta.env.VITE_API_URL}/${content}`);
+  } catch (error) {
+    return {
+      ok: false,
+    };
+  }
+};
+
 const httpGetAllCommentsOnVideo = async ({ _id }) => {
   try {
     return await axios.get(`${import.meta.env.VITE_API_URL}/comments/${_id}`);
@@ -163,4 +174,5 @@ export {
   httpStoreHistory,
   httpGetAllCommentsOnVideo,
   httpRemoveFromHistory,
+  httpSearchVideo,
 };
