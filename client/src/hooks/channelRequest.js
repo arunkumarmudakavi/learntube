@@ -136,6 +136,17 @@ const httpGetAllCommentsFromChannel = async ({ _id }) => {
   }
 };
 
+const httpSearchVideoFromChannel = async ({ content }) => {
+  try {
+    // console.log(content)
+    return await axios.get(`${import.meta.env.VITE_CHANNEL_API_URL}/${content}`);
+  } catch (error) {
+    return {
+      ok: false,
+    };
+  }
+}
+
 export {
   httpChannelRegister,
   httpChannelLogin,
@@ -148,4 +159,5 @@ export {
   httpGetChannelSingleVideo,
   httpCommentVideoFromChannel,
   httpGetAllCommentsFromChannel,
+  httpSearchVideoFromChannel,
 };

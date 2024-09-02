@@ -398,6 +398,27 @@ const commentsOnVideoByChannel = asyncHandler(async (req, res) => {
     .json(new ApiResponse(200, comment, "Comment added successfully..."));
 });
 
+const searchVideoFromChannel = asyncHandler( async (req, res) => {
+  const searchKey = req.params?.key;
+  console.log(searchKey)
+
+  const searchedVideo = await Video.find(
+    {
+      "$or": [
+        { "title": {$regex: searchKey}}
+      ]
+    }
+  );
+
+  return res
+  .status(200)
+  .json(new ApiResponse(
+    200,
+    searchedVideo,
+    "Item Searched Successfully"
+  ))
+})
+
 export {
   refreshAccessToken,
   registerChannel,
@@ -411,4 +432,5 @@ export {
   getVideo,
   getAllComments,
   commentsOnVideoByChannel,
+  searchVideoFromChannel,
 };

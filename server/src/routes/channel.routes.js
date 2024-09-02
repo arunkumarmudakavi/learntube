@@ -12,6 +12,7 @@ import {
   getVideo,
   getAllComments,
   commentsOnVideoByChannel,
+  searchVideoFromChannel,
 } from "../controllers/channel.controller.js";
 import { verifyChannelJWT } from "../middlewares/auth.middleware.js";
 import { upload } from "../middlewares/multer.middleware.js";
@@ -51,5 +52,7 @@ channelRouter.route("/comments/:_id").get(verifyChannelJWT, getAllComments);
 channelRouter
   .route("/comments/:_id")
   .post(verifyChannelJWT, commentsOnVideoByChannel);
+
+channelRouter.route("/:key").get(verifyChannelJWT, searchVideoFromChannel)
 
 export { channelRouter };
